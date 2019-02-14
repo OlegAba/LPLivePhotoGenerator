@@ -1,7 +1,7 @@
 # LivePhotoGenerator.swift
 ## A Swift library for creating and saving Live Photos
 
-#### Creating and Saving a Live Photo
+#### Ex. Creating and Saving a Live Photo
 ```swift
 // outputFileName defaults to temp if one is not provided
 let livePhotoGenerator = LivePhotoGenerator(inputImagePath: inputVideoPath, inputVideoPath: videoFilePath, outputFileName: nil)
