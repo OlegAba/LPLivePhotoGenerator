@@ -12,8 +12,9 @@ livePhotoGenerator.create(completion: ({ livePhoto: PHLivePhoto?, resources: Liv
   guard let livePhoto = livePhoto else { completion(nil, nil); return }
   guard let resources = resources else { completion(nil, nil); return }
   
-  // Set the Live Photo in a PhLivePhotoView
-  PHLivePhotoView.livePhoto = livePhoto
+  // Set the Live Photo in a PHLivePhotoView
+  let livePhotoView = PHLivePhotoView(frame: rect)
+  livePhotoView.livePhoto = livePhoto
   
   // Save Live Photo to Photo Library
   livePhotoGenerator.writeToPhotoLibrary(resources: resources) { (success: Bool) in
