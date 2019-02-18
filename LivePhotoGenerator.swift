@@ -1,74 +1,57 @@
+
 import Photos
 import MobileCoreServices
 
 class LivePhotoGenerator {
     
-    let inputImagePath: String
-    let inputVideoPath: String
-    let outputImagePath: String
-    let outputVideoPath: String
+    // TODO: Use URL instead of String Path for all variables ???
+    private let inputImagePath: String
+    private let inputVideoPath: String
+    // Use GUID instead ???
     private let assetID: String = UUID().uuidString
-    private let documentsDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
     
-    typealias Resources = (pairedImageURL: URL, pairedVideoURL: URL)
-    
-    
-    init(inputImagePath: String, inputVideoPath: String, outputFileName: String?) {
-        self.inputImagePath = inputImagePath
-        self.inputVideoPath = inputVideoPath
-        
-        let outputFileName = outputFileName ?? "temp"
-        self.outputImagePath = "\(documentsDirectory)/\(outputFileName).jpeg"
-        self.outputVideoPath = "\(documentsDirectory)/\(outputFileName).mov"
-        
-        // Make sure file doesn't exist before writing
-        if FileManager.default.fileExists(atPath: self.outputImagePath) {
-            let _ = try? FileManager.default.removeItem(at: URL(fileURLWithPath: self.outputImagePath))
-        }
-        if FileManager.default.fileExists(atPath: self.outputVideoPath) {
-            let _ = try? FileManager.default.removeItem(at: URL(fileURLWithPath: self.outputVideoPath))
-        }
+    // TODO: Private?
+    enum LivePhotoGeneratorError: Error {
+        case imageConverstionFailed
+        case videoConverstionFailed
+        case livePhotoCreationFailed
     }
     
-    // Creates and returns a PHLivePhoto from the formatted image and video along with the Resources which include the paired image url and paired video url
-    func create(completion: @escaping (PHLivePhoto?, Resources?) -> ()) {
-        guard convertImageToLivePhotoFormat(inputImagePath: inputImagePath, outputImagePath: outputImagePath) else { completion(nil, nil); return }
+    init(imagePath: String, videoPath: String) {
+        self.inputImagePath = imagePath
+        self.inputVideoPath = videoPath
+    }
+    
+    // Create and returns a LivePhoto object from the formatted image and video which include the paired image URL and paired video URL
+    func create(completion: @escaping (LivePhoto?, Error?) -> ()) {
         
-        convertVideoToLivePhotoFormat(inputVideoPath: inputVideoPath, outputVideoPath: outputVideoPath, completion: { (success: Bool) in
-            guard success else { completion(nil, nil); return }
+        let outputImageURL = createTempDirectoryPathWith(fileName: assetID + ".jpeg")
+        let outputVideoURL = createTempDirectoryPathWith(fileName: assetID + ".mov")
+        
+        guard convertImageToLivePhotoFormat(inputImagePath: inputImagePath, outputImageURL: outputImageURL) else { completion(nil, LivePhotoGeneratorError.imageConverstionFailed); return }
+        
+        convertVideoToLivePhotoFormat(inputVideoPath: inputVideoPath, outputVideoURL: outputVideoURL, completion: { (success: Bool) in
+            guard success else { completion(nil, LivePhotoGeneratorError.videoConverstionFailed); return }
             
-            self.makeLivePhotoFromFormattedItems(imagePath: self.outputImagePath, videoPath: self.outputVideoPath, previewImage: UIImage(), completion: { (livePhoto: PHLivePhoto?) in
+            self.makeLivePhotoFromFormattedItems(imageURL: outputImageURL, videoURL: outputVideoURL, previewImage: UIImage(), completion: { (livePhoto: PHLivePhoto?) in
                 if let livePhoto = livePhoto {
-                    let resources = Resources(pairedImageURL: URL(fileURLWithPath: self.outputImagePath), pairedVideoURL: URL(fileURLWithPath: self.outputVideoPath))
-                    completion(livePhoto, resources)
+                    completion(LivePhoto(phLivePhoto: livePhoto, imageURL: outputImageURL, videoURL: outputVideoURL, assetID: self.assetID), nil)
                 } else {
-                    completion(nil, nil)
+                    completion(nil, LivePhotoGeneratorError.livePhotoCreationFailed)
                 }
             })
         })
     }
     
-    // Saves the Live Photo (paired image and video) from Resources to the Photo Library
-    public static func writeToPhotoLibrary(resources: Resources, completion: @escaping (Bool) -> ()) {
-        PHPhotoLibrary.shared().performChanges({
-            
-            let request = PHAssetCreationRequest.forAsset()
-            
-            request.addResource(with: .photo, fileURL: resources.pairedImageURL, options: nil)
-            request.addResource(with: .pairedVideo, fileURL: resources.pairedVideoURL, options: nil)
-            
-        }) { (success: Bool, error: Error?) in
-            if let error = error {
-                print(error.localizedDescription)
-            }
-            completion(success)
-        }
+    // Creates temporary directory URL with an appending file name
+    private func createTempDirectoryPathWith(fileName: String) -> URL {
+        
+        let tempDirectoryURL = NSURL.fileURL(withPath: NSTemporaryDirectory(), isDirectory: true).appendingPathComponent(fileName)
+        return tempDirectoryURL
     }
     
     // Links the formatted image and video
-    private func makeLivePhotoFromFormattedItems(imagePath: String, videoPath: String, previewImage: UIImage, completion: @escaping (PHLivePhoto?) -> Void) {
-        let imageURL = URL(fileURLWithPath: imagePath)
-        let videoURL = URL(fileURLWithPath: videoPath)
+    private func makeLivePhotoFromFormattedItems(imageURL: URL, videoURL: URL, previewImage: UIImage, completion: @escaping (PHLivePhoto?) -> Void) {
         
         PHLivePhoto.request(withResourceFileURLs: [imageURL, videoURL], placeholderImage: previewImage, targetSize: CGSize.zero, contentMode: .aspectFit) { (livePhoto: PHLivePhoto?, infoDict: [AnyHashable : Any]) in
             completion(livePhoto)
@@ -76,12 +59,12 @@ class LivePhotoGenerator {
     }
     
     // Converts the image into a Live Photo format
-    private func convertImageToLivePhotoFormat(inputImagePath: String, outputImagePath: String) -> Bool {
+    private func convertImageToLivePhotoFormat(inputImagePath: String, outputImageURL: URL) -> Bool {
         
         guard let image = UIImage(contentsOfFile: inputImagePath) else { return false }
         guard let imageData = image.jpegData(compressionQuality: 1.0) else { return false }
         
-        let destinationURL = URL(fileURLWithPath: outputImagePath) as CFURL
+        let destinationURL = outputImageURL as CFURL
         guard let imageDestination = CGImageDestinationCreateWithURL(destinationURL, kUTTypeJPEG, 1, nil) else { return false }
         
         defer { CGImageDestinationFinalize(imageDestination) }
@@ -102,10 +85,10 @@ class LivePhotoGenerator {
     }
     
     // Converts the video into a Live Photo format
-    private func convertVideoToLivePhotoFormat(inputVideoPath: String, outputVideoPath: String, completion: @escaping (Bool) -> ()) {
+    private func convertVideoToLivePhotoFormat(inputVideoPath: String, outputVideoURL: URL, completion: @escaping (Bool) -> ()) {
         
         // Create asset writer and set its metadata
-        guard let writer = try? AVAssetWriter(outputURL: URL(fileURLWithPath: outputVideoPath), fileType: .mov) else { completion(false); return }
+        guard let writer = try? AVAssetWriter(outputURL: outputVideoURL, fileType: .mov) else { completion(false); return }
         let item = AVMutableMetadataItem()
         item.key = "com.apple.quicktime.content.identifier" as (NSCopying & NSObjectProtocol)?
         item.keySpace = AVMetadataKeySpace.quickTimeMetadata
@@ -184,6 +167,9 @@ class LivePhotoGenerator {
             }
         })
         
+        //TODO: NOT WRITING AUDIO TRACK
+        
+        // TODO: Look for an alternative to statement below
         // wait until writer finishes writing
         while writer.status == .writing {
             RunLoop.current.run(until: Date(timeIntervalSinceNow: 0.5))
@@ -191,4 +177,5 @@ class LivePhotoGenerator {
         
         completion(true)
     }
+    
 }
