@@ -3,22 +3,23 @@
 
 #### Ex. Creating and Saving a Live Photo
 ```swift
-// outputFileName defaults to temp if one is not provided
-let livePhotoGenerator = LivePhotoGenerator(inputImagePath: inputVideoPath, inputVideoPath: videoFilePath, outputFileName: nil)
+// Create a LivePhoto object with a image path and video path
+LivePhotoGenerator(imagePath: self.imagePath, videoPath: self.videoPath).create { (livePhoto: LivePhoto?, error: Error?) in
 
-livePhotoGenerator.create(completion: ({ livePhoto: PHLivePhoto?, resources: LivePhotoGenerator.Resources?) in
+    // Unwrap object
+    if let livePhoto = livePhoto {
 
-  // Unwrap values
-  guard let livePhoto = livePhoto else { completion(nil, nil); return }
-  guard let resources = resources else { completion(nil, nil); return }
-  
-  // Set the Live Photo in a PHLivePhotoView
-  let livePhotoView = PHLivePhotoView(frame: rect)
-  livePhotoView.livePhoto = livePhoto
-  
-  // Save Live Photo to Photo Library
-  livePhotoGenerator.writeToPhotoLibrary(resources: resources) { (success: Bool) in
-    if success {
-      ...
-}))
+        // Set the Live Photo in a PHLivePhotoView
+        let livePhotoView = PHLivePhotoView(frame: rect)
+        livePhotoView.livePhoto = livePhoto
+
+        // Save Live Photo to Photo Library
+        livePhoto.writeToPhotoLibrary(completion: { (success: Bool, error: Error?) in
+
+          if success {
+            ...
+          }
+        })
+    }
+}
 ```
