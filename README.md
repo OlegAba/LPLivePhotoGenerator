@@ -24,7 +24,7 @@ LivePhotoGenerator(imagePath: imagePath, videoPath: videoPath).create { (livePho
 }
 ```
 
-#### Extra Tools (LivePhoto Object Methods):
+#### Extra Tools (LivePhoto Methods):
 ```swift
 // Move paired image and video to new path
 livePhoto.movePairedFilesTo(path: path, completion: { (success: Bool, error: Error?) in
