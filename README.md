@@ -35,7 +35,7 @@ livePhoto.movePairedFilesTo(path: path, completion: { (success: Bool, error: Err
 })
 
 // Remove paired image and video from temporary directory
-livePhoto.removeFilesFromDirectory(completion: { (success: Bool, error: Error?) in
+livePhoto.removeFilesFromTempDirectory(completion: { (success: Bool, error: Error?) in
     
     if success {
         ...
