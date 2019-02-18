@@ -1,5 +1,5 @@
 # LivePhotoGenerator.swift
-## A Swift library for creating and saving Live Photos
+A Swift library for creating and saving Live Photos
 
 #### Creating and Saving a Live Photo:
 ```swift
