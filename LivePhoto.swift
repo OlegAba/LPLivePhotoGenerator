@@ -8,6 +8,7 @@ class LivePhoto {
     let assetID: String
     
     enum LivePhotoError: Error {
+        case writeToPhotoLibraryFailed(String)
         case imageMoveFailed(String)
         case videoMoveFailed(String)
         case imageRemoveFailed(String)
@@ -32,28 +33,28 @@ class LivePhoto {
             
         }) { (success: Bool, error: Error?) in
             if let error = error {
-                completion(success, error)
+                completion(success, LivePhotoError.writeToPhotoLibraryFailed(error.localizedDescription))
             }
-            completion(success, LivePhotoError.videoRemoveFailed("At path"))
+            completion(success, nil)
         }
     }
     
     // Move paired image and video to new path
-    func movePairedFilesTo(path: String, completion: @escaping (Bool, Error?) -> ()) {
+    func movePairedImageAndVideoTo(path: String, completion: @escaping (Bool, LivePhotoError?) -> ()) {
         let newImageURL = URL(fileURLWithPath: path + "/\(self.assetID).jpeg")
         let newVideoURL = URL(fileURLWithPath: path + "/\(self.assetID).mov")
         
         if (try? FileManager.default.moveItem(at: imageURL, to: newImageURL)) != nil {
             print("Image file moved to \(newImageURL.path)")
         } else {
-            completion(false, LivePhotoError.imageMoveFailed("To path \(newImageURL.path)"))
+            completion(false, LivePhotoError.imageMoveFailed("The specified directory does not exist: \(newImageURL.path)"))
             return
         }
         
         if (try? FileManager.default.moveItem(at: videoURL, to: newVideoURL)) != nil {
             print("Image file moved to \(newVideoURL.path)")
         } else {
-            completion(false, LivePhotoError.videoMoveFailed("To path \(newVideoURL.path)"))
+            completion(false, LivePhotoError.videoMoveFailed("The specified directory does not exist: \(newVideoURL.path)"))
             return
         }
         
@@ -61,22 +62,31 @@ class LivePhoto {
     }
     
     // Removes paired image and video in temporary directory
-    func removeFilesFromTempDirectory(completion: @escaping (Bool, Error?) -> ()) {
+    // TODO: Make private and call in deinit
+    func removeFilesFromTempDirectory(completion: @escaping (Bool, LivePhotoError?) -> ()) {
         if (try? FileManager.default.removeItem(at: imageURL)) != nil {
             print("Image file removed at path \(imageURL.path)")
         } else {
-            completion(false, LivePhotoError.imageRemoveFailed("At path \(imageURL.path)"))
+            completion(false, LivePhotoError.imageRemoveFailed("No file exists at path: \(imageURL.path)"))
             return
         }
 
         if (try? FileManager.default.removeItem(at: videoURL)) != nil {
             print("Video file removed at path \(videoURL.path)")
         } else {
-            completion(false, LivePhotoError.videoRemoveFailed("At path \(videoURL.path)"))
+            completion(false, LivePhotoError.videoRemoveFailed("No file exists at path: \(videoURL.path)"))
             return
         }
 
         completion(true, nil)
+    }
+    
+    deinit {
+        removeFilesFromTempDirectory { (success: Bool, error: LivePhotoError?) in
+            if success {
+                print("All files were removed")
+            }
+        }
     }
 
 }
