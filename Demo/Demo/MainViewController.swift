@@ -17,7 +17,7 @@ class MainViewController: UIViewController {
         super.viewDidLoad()
         
         imagePath = Bundle.main.path(forResource: "image", ofType: "JPEG")
-        videoPath = Bundle.main.path(forResource: "video", ofType: "MOV")
+        videoPath = Bundle.main.path(forResource: "test", ofType: "MOV")
         
         view.backgroundColor = UIColor.black
         
@@ -82,11 +82,15 @@ class MainViewController: UIViewController {
         
         createActivityIndicatorView.startAnimating()
         
-        LivePhotoGenerator(imagePath: self.imagePath, videoPath: self.videoPath).create { (livePhoto: LivePhoto?, error: Error?) in
+        LivePhotoGenerator.create(inputImagePath: self.imagePath, inputVideoPath: self.videoPath) { (livePhoto: LivePhoto?, error: LivePhotoGenerator.LivePhotoGeneratorError?) in
             if let livePhoto = livePhoto {
+                print("Testlkasndaslkndasklfnaslfnaslfnaslfn 1293-8210938120498120471209571095710398210398120938123")
                 self.livePhoto = livePhoto
                 self.createActivityIndicatorView.stopAnimating()
                 self.viewButton.isHidden = false
+                return
+            } else {
+                print(error)
             }
         }
     }
