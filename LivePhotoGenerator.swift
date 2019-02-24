@@ -51,7 +51,8 @@ class LivePhotoGenerator {
     private static func makeLivePhotoFromFormattedItems(imageURL: URL, videoURL: URL, previewImage: UIImage, completion: @escaping (PHLivePhoto?) -> ()) {
         
         PHLivePhoto.request(withResourceFileURLs: [imageURL, videoURL], placeholderImage: previewImage, targetSize: CGSize.zero, contentMode: .aspectFit) { (livePhoto: PHLivePhoto?, infoDict: [AnyHashable : Any]) in
-            completion(livePhoto)
+            
+            guard let _ = infoDict[PHLivePhotoInfoIsDegradedKey] as? Bool else { completion (livePhoto); return }
         }
     }
     
