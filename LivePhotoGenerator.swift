@@ -4,6 +4,8 @@ import MobileCoreServices
 
 class LivePhotoGenerator {
     
+    // TODO: Instead of writing errors can we do a do{} catch{} and print error in catch statement ???
+    
     enum LivePhotoGeneratorError: Error {
         case imageConversionFailed(String)
         case videoConversionFailed(String)
@@ -19,7 +21,7 @@ class LivePhotoGenerator {
         let outputVideoURL = createTempDirectoryPathWith(fileName: assetID + ".mov")
         
         let (success, error) = convertImageToLivePhotoFormat(inputImagePath: inputImagePath, outputImageURL: outputImageURL, assetID: assetID)
-        // TODO: Possible to write into one statement ???
+        // TODO: Change to not error
         if !success { completion(nil, error); return }
         
         convertVideoToLivePhotoFormat(inputVideoPath: inputVideoPath, outputVideoURL: outputVideoURL, assetID: assetID) { (success: Bool, error: LivePhotoGeneratorError?) in
@@ -100,23 +102,23 @@ class LivePhotoGenerator {
         // Reader for source video
         let asset = AVURLAsset(url: URL(fileURLWithPath: inputVideoPath))
         // TODO: Internal Error
-        guard let track = asset.tracks.first else { completion(false, LivePhotoGeneratorError.videoConversionFailed("Video track is in an unsupported format")); return }
+        guard let videoTrack = asset.tracks.first else { completion(false, LivePhotoGeneratorError.videoConversionFailed("Video track is in an unsupported format")); return }
         
-        let output = AVAssetReaderTrackOutput(track: track, outputSettings: [kCVPixelBufferPixelFormatTypeKey as String: NSNumber(value: kCVPixelFormatType_32BGRA as UInt32)])
+        let output = AVAssetReaderTrackOutput(track: videoTrack, outputSettings: [kCVPixelBufferPixelFormatTypeKey as String: NSNumber(value: kCVPixelFormatType_32BGRA as UInt32)])
         // TODO: Internal Error
-        guard let reader = try? AVAssetReader(asset: asset) else { completion(false, LivePhotoGeneratorError.videoConversionFailed("Video data is in an unsupported format")); return }
-        reader.add(output)
+        guard let videoReader = try? AVAssetReader(asset: asset) else { completion(false, LivePhotoGeneratorError.videoConversionFailed("Video data is in an unsupported format")); return }
+        videoReader.add(output)
         
         // Input from video file
         let outputSettings = [
             AVVideoCodecKey: AVVideoCodecType.h264 as AnyObject,
-            AVVideoWidthKey: track.naturalSize.width as AnyObject,
-            AVVideoHeightKey: track.naturalSize.height as AnyObject
+            AVVideoWidthKey: videoTrack.naturalSize.width as AnyObject,
+            AVVideoHeightKey: videoTrack.naturalSize.height as AnyObject
         ]
-        let writerInput = AVAssetWriterInput(mediaType: .video, outputSettings: outputSettings)
-        writerInput.expectsMediaDataInRealTime = true
-        writerInput.transform = track.preferredTransform
-        writer.add(writerInput)
+        let videoWriterInput = AVAssetWriterInput(mediaType: .video, outputSettings: outputSettings)
+        videoWriterInput.expectsMediaDataInRealTime = true // TODO: Should this be false ???
+        videoWriterInput.transform = videoTrack.preferredTransform
+        writer.add(videoWriterInput)
         
         // Create metadata adapter
         let keySpaceQuickTimeMetadata = "mdta"
@@ -133,13 +135,33 @@ class LivePhotoGenerator {
         let adapter = AVAssetWriterInputMetadataAdaptor(assetWriterInput: assetWriterInput)
         writer.add(adapter.assetWriterInput)
         
+
+        // Create audio reader and writer
+        var audioReader: AVAssetReader?
+        var audioReaderOutput: AVAssetReaderOutput?
+        var audioWriterInput: AVAssetWriterInput?
+        
+        if let audioTrack = asset.tracks(withMediaType: .audio).first {
+            // TODO: Add errors
+            guard let audioReaderTemp = try? AVAssetReader(asset: asset) else {completion(false, LivePhotoGeneratorError.videoConversionFailed("")); return}
+            let audioOutputTemp = AVAssetReaderTrackOutput(track: audioTrack, outputSettings: nil)
+            audioReaderTemp.add(audioOutputTemp)
+            audioReader = audioReaderTemp
+            audioReaderOutput = audioOutputTemp
+            
+            let audioInputTemp = AVAssetWriterInput(mediaType: .audio, outputSettings: nil)
+            audioInputTemp.expectsMediaDataInRealTime = false
+            writer.add(audioInputTemp)
+            audioWriterInput = audioInputTemp
+        }
+        
         
         // Create video
         writer.startWriting()
-        reader.startReading()
+        videoReader.startReading()
         writer.startSession(atSourceTime: CMTime.zero)
         
-        // write metadata track
+        // Write metadata track
         let item2 = AVMutableMetadataItem()
         item2.key = keyStillImageTime as (NSCopying & NSObjectProtocol)?
         item2.keySpace = AVMetadataKeySpace.quickTimeMetadata
@@ -147,19 +169,20 @@ class LivePhotoGenerator {
         item2.dataType = "com.apple.metadata.datatype.int8"
         adapter.append(AVTimedMetadataGroup(items: [item2], timeRange: CMTimeRangeMake(start: CMTimeMake(value: 0, timescale: 1000), duration: CMTimeMake(value: 200, timescale: 3000))))
         
-        // write video track
-        writerInput.requestMediaDataWhenReady(on: DispatchQueue(label: "assetVideoWriterQueue", attributes: []), using: {
-            while writerInput.isReadyForMoreMediaData {
-                if reader.status == .reading {
+        
+        // Write video track
+        videoWriterInput.requestMediaDataWhenReady(on: DispatchQueue(label: "assetVideoWriterQueue", attributes: []), using: {
+            while videoWriterInput.isReadyForMoreMediaData {
+                if videoReader.status == .reading {
                     if let buffer = output.copyNextSampleBuffer() {
-                        if !writerInput.append(buffer) {
+                        if !videoWriterInput.append(buffer) {
                             // TODO: Return false and error here ???
                             print("cannot write: \((describing: writer.error?.localizedDescription))")
-                            reader.cancelReading()
+                            videoReader.cancelReading()
                         }
                     }
                 } else {
-                    writerInput.markAsFinished()
+                    videoWriterInput.markAsFinished()
                     writer.finishWriting() {
                         if let e = writer.error {
                             completion(false, LivePhotoGeneratorError.videoConversionFailed(e.localizedDescription))
@@ -169,17 +192,39 @@ class LivePhotoGenerator {
                 }
             }
         })
+
         
+        // Write audio track
+        if audioReader?.startReading() ?? false {
+            // TODO: Make sure label matches video an audio queues
+            audioWriterInput?.requestMediaDataWhenReady(on: DispatchQueue(label: "audioWriterInputQueue")) {
+                while audioWriterInput?.isReadyForMoreMediaData ?? false {
+                    if let buffer = audioReaderOutput?.copyNextSampleBuffer() {
+                        audioWriterInput?.append(buffer)
+                    } else {
+                        audioWriterInput?.markAsFinished()
+                        return
+                    }
+                }
+            }
+        } else {
+            audioWriterInput?.markAsFinished()
+            writer.finishWriting() {
+                if let e = writer.error {
+                    completion(false, LivePhotoGeneratorError.videoConversionFailed(e.localizedDescription))
+                    return
+                }
+            }
+        }
+
         
-        
-        //TODO: NOT WRITING AUDIO TRACK
         
         // TODO: Look for an alternative to statement below
-        // wait until writer finishes writing
+        // Wait until writer finishes writing
         while writer.status == .writing {
             RunLoop.current.run(until: Date(timeIntervalSinceNow: 0.5))
         }
-        
+
         completion(true, nil)
     }
     
