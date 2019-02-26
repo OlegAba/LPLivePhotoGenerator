@@ -82,6 +82,8 @@ class LivePhoto {
     }
     
     deinit {
+        print("deinit called on LivePhoto object")
+        
         removeFilesFromTempDirectory { (success: Bool, error: LivePhotoError?) in
             if let error = error {
                 print(error.localizedDescription)
