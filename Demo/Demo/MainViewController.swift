@@ -88,8 +88,6 @@ class MainViewController: UIViewController {
                 self.createActivityIndicatorView.stopAnimating()
                 self.viewButton.isHidden = false
                 return
-            } else {
-                print(error)
             }
         }
     }
