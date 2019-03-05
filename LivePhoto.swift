@@ -62,7 +62,6 @@ class LivePhoto {
     }
     
     // Removes paired image and video in temporary directory
-    // TODO: Make private and only call from deinit ???
     func removeFilesFromTempDirectory(completion: @escaping (Bool, LivePhotoError?) -> ()) {
         if (try? FileManager.default.removeItem(at: imageURL)) != nil {
             print("Image file removed at path \(imageURL.path)")
@@ -82,7 +81,7 @@ class LivePhoto {
     }
     
     deinit {
-        print("deinit called on LivePhoto object")
+        print("deinit called on LivePhoto object id: \(self.assetID)")
         
         removeFilesFromTempDirectory { (success: Bool, error: LivePhotoError?) in
             if let error = error {
