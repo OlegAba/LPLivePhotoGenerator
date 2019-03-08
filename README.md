@@ -4,7 +4,7 @@ A Swift library for creating and saving Live Photos
 #### Creating and Saving a Live Photo:
 ```swift
 // Create a LivePhoto object with a image path and video path
-LivePhotoGenerator(imagePath: imagePath, videoPath: videoPath).create { (livePhoto: LivePhoto?, error: Error?) in
+LivePhotoGenerator.create(inputImagePath: imagePath, inputVideoPath: videoPath) { (livePhoto: LivePhoto?, error: Error?) in
 
     // Unwrap object
     if let livePhoto = livePhoto {
@@ -14,9 +14,9 @@ LivePhotoGenerator(imagePath: imagePath, videoPath: videoPath).create { (livePho
         livePhotoView.livePhoto = livePhoto
 
         // Save Live Photo to Photo Library
-        livePhoto.writeToPhotoLibrary(completion: { (success: Bool, error: Error?) in
+        livePhoto.writeToPhotoLibrary(completion: { (livePhoto: LivePhoto, error: Error?) in
 
-          if success {
+          if error == nil {
             ...
           }
         })
@@ -24,7 +24,7 @@ LivePhotoGenerator(imagePath: imagePath, videoPath: videoPath).create { (livePho
 }
 ```
 
-#### Extra Tools (LivePhoto Methods):
+#### Extra Tool (LivePhoto Method):
 ```swift
 // Move paired image and video to new path
 livePhoto.movePairedFilesTo(path: path, completion: { (success: Bool, error: Error?) in
@@ -33,12 +33,4 @@ livePhoto.movePairedFilesTo(path: path, completion: { (success: Bool, error: Err
         ...
     }
 })
-
-// Remove paired image and video from temporary directory
-livePhoto.removeFilesFromTempDirectory(completion: { (success: Bool, error: Error?) in
-    
-    if success {
-        ...
-    }
-)}
 ```
