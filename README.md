@@ -35,7 +35,7 @@ livePhoto.movePairedFilesTo(path: path, completion: { (success: Bool, error: Err
 })
 ```
 
-## Live Photo Generator Demo
+## Demo Application
 The "Demo" is a basic reference application created to show how to develop applications using the Live Photo Generator library.
 
 ### Installation
