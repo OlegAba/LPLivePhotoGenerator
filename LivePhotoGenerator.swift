@@ -1,4 +1,3 @@
-
 import Photos
 import MobileCoreServices
 
@@ -52,6 +51,7 @@ class LivePhotoGenerator {
         
         PHLivePhoto.request(withResourceFileURLs: [imageURL, videoURL], placeholderImage: previewImage, targetSize: CGSize.zero, contentMode: .aspectFit) { (livePhoto: PHLivePhoto?, infoDict: [AnyHashable : Any]) in
             
+            // Wait until all live photo data is loaded
             guard let _ = infoDict[PHLivePhotoInfoIsDegradedKey] as? Bool else { completion (livePhoto); return }
         }
     }

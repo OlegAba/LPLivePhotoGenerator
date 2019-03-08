@@ -23,7 +23,7 @@ class LivePhoto {
     }
     
     // Saves Live Photo (paired image and video) to the Photo Library
-    func writeToPhotoLibrary(completion: @escaping (Bool, Error?) -> ()) {
+    func writeToPhotoLibrary(completion: @escaping (LivePhoto, LivePhotoError?) -> ()) {
         PHPhotoLibrary.shared().performChanges({
             
             let request = PHAssetCreationRequest.forAsset()
@@ -33,9 +33,9 @@ class LivePhoto {
             
         }) { (success: Bool, error: Error?) in
             if let error = error {
-                completion(success, LivePhotoError.writeToPhotoLibraryFailed(error.localizedDescription))
+                completion(self, LivePhotoError.writeToPhotoLibraryFailed(error.localizedDescription))
             }
-            completion(success, nil)
+            completion(self, nil)
         }
     }
     
@@ -62,7 +62,7 @@ class LivePhoto {
     }
     
     // Removes paired image and video in temporary directory
-    func removeFilesFromTempDirectory(completion: @escaping (Bool, LivePhotoError?) -> ()) {
+    private func removeFilesFromTempDirectory(completion: @escaping (Bool, LivePhotoError?) -> ()) {
         if (try? FileManager.default.removeItem(at: imageURL)) != nil {
             print("Image file removed at path \(imageURL.path)")
         } else {
@@ -82,7 +82,7 @@ class LivePhoto {
     
     deinit {
         print("deinit called on LivePhoto object id: \(self.assetID)")
-        
+
         removeFilesFromTempDirectory { (success: Bool, error: LivePhotoError?) in
             if let error = error {
                 print(error.localizedDescription)
