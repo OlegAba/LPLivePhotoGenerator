@@ -47,7 +47,7 @@ git clone --recursive https://github.com/OlegAba/LivePhotoGenerator.git
 ```
 Open ```Demo.xcodeproj``` in the Demo folder
 
-* _You can also check out [SuperSnapcode](https://github.com/OlegAba/SuperSnapcode) - an iOS application that is built with this library_
+_You can also check out [SuperSnapcode](https://github.com/OlegAba/SuperSnapcode) - an iOS application that is built with this library_
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](https://github.com/OlegAba/LivePhotoGenerator/blob/master/LICENSE) file for details
