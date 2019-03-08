@@ -1,6 +1,6 @@
 import Photos
 
-class LivePhoto {
+class LPLivePhoto {
     
     let phLivePhoto: PHLivePhoto
     let imageURL: URL
@@ -23,7 +23,7 @@ class LivePhoto {
     }
     
     // Saves Live Photo (paired image and video) to the Photo Library
-    func writeToPhotoLibrary(completion: @escaping (LivePhoto, LivePhotoError?) -> ()) {
+    func writeToPhotoLibrary(completion: @escaping (LPLivePhoto, LivePhotoError?) -> ()) {
         PHPhotoLibrary.shared().performChanges({
             
             let request = PHAssetCreationRequest.forAsset()

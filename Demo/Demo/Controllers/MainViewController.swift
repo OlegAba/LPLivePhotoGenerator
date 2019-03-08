@@ -10,7 +10,7 @@ class MainViewController: UIViewController {
     
     var imagePath: String!
     var videoPath: String!
-    var livePhoto: LivePhoto?
+    var livePhoto: LPLivePhoto?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,7 +55,7 @@ class MainViewController: UIViewController {
         
         createActivityIndicatorView.startAnimating()
         
-        LivePhotoGenerator.create(inputImagePath: self.imagePath, inputVideoPath: self.videoPath) { (livePhoto: LivePhoto?, error: Error?) in
+        LPLivePhotoGenerator.create(inputImagePath: self.imagePath, inputVideoPath: self.videoPath) { (livePhoto: LPLivePhoto?, error: Error?) in
             if let livePhoto = livePhoto {
                 self.livePhoto = livePhoto
                 self.createActivityIndicatorView.stopAnimating()
@@ -80,7 +80,7 @@ class MainViewController: UIViewController {
     @objc func saveButtonWasPressed() {
         self.saveButton.isUserInteractionEnabled = false
         
-        livePhoto?.writeToPhotoLibrary(completion: { (livePhoto: LivePhoto, error: Error?) in
+        livePhoto?.writeToPhotoLibrary(completion: { (livePhoto: LPLivePhoto, error: Error?) in
             DispatchQueue.main.sync {
                 
                 if let error = error {

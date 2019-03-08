@@ -1,7 +1,7 @@
 import Photos
 import MobileCoreServices
 
-class LivePhotoGenerator {
+class LPLivePhotoGenerator {
     
     enum LivePhotoGeneratorError: Error {
         case imageConversionFailed(String)
@@ -10,7 +10,7 @@ class LivePhotoGenerator {
     }
     
     // Create and returns a LivePhoto object from the formatted image and video which include the paired image URL and paired video URL
-    static func create(inputImagePath: String, inputVideoPath: String, completion: @escaping (LivePhoto?, LivePhotoGeneratorError?) -> ()) {
+    static func create(inputImagePath: String, inputVideoPath: String, completion: @escaping (LPLivePhoto?, LivePhotoGeneratorError?) -> ()) {
         
         let assetID: String = UUID().uuidString
         
@@ -28,7 +28,7 @@ class LivePhotoGenerator {
             makeLivePhotoFromFormattedItems(imageURL: outputImageURL, videoURL: outputVideoURL, previewImage: UIImage(), completion: { (livePhoto: PHLivePhoto?) in
                 
                 if let livePhoto = livePhoto {
-                    completion(LivePhoto(phLivePhoto: livePhoto, imageURL: outputImageURL, videoURL: outputVideoURL, assetID: assetID), nil)
+                    completion(LPLivePhoto(phLivePhoto: livePhoto, imageURL: outputImageURL, videoURL: outputVideoURL, assetID: assetID), nil)
                     return
                 } else {
                     completion(nil, LivePhotoGeneratorError.livePhotoCreationFailed("Metadata of image and/or video is invalid"))
