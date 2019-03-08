@@ -7,21 +7,21 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		7C1D139C2232566B009B09B2 /* LPLivePhotoGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = 7C1D139A2232566B009B09B2 /* LPLivePhotoGenerator.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7C79014122325AC900A2DC4D /* LPLivePhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C79013F22325AC900A2DC4D /* LPLivePhoto.swift */; };
-		7C79014222325AC900A2DC4D /* LPLivePhotoGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C79014022325AC900A2DC4D /* LPLivePhotoGenerator.swift */; };
+		7C493A2322332ED40003D41E /* LPLivePhotoGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = 7C493A2122332ED40003D41E /* LPLivePhotoGenerator.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7C493A2A22332EFD0003D41E /* LPLivePhotoGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C493A2922332EFD0003D41E /* LPLivePhotoGenerator.swift */; };
+		7C493A2C22332F1B0003D41E /* LPLivePhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C493A2B22332F1B0003D41E /* LPLivePhoto.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		7C1D13972232566B009B09B2 /* LPLivePhotoGenerator.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LPLivePhotoGenerator.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		7C1D139A2232566B009B09B2 /* LPLivePhotoGenerator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LPLivePhotoGenerator.h; sourceTree = "<group>"; };
-		7C1D139B2232566B009B09B2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		7C79013F22325AC900A2DC4D /* LPLivePhoto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LPLivePhoto.swift; sourceTree = "<group>"; };
-		7C79014022325AC900A2DC4D /* LPLivePhotoGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LPLivePhotoGenerator.swift; sourceTree = "<group>"; };
+		7C493A1E22332ED40003D41E /* LPLivePhotoGenerator.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LPLivePhotoGenerator.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7C493A2122332ED40003D41E /* LPLivePhotoGenerator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LPLivePhotoGenerator.h; sourceTree = "<group>"; };
+		7C493A2222332ED40003D41E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7C493A2922332EFD0003D41E /* LPLivePhotoGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LPLivePhotoGenerator.swift; sourceTree = "<group>"; };
+		7C493A2B22332F1B0003D41E /* LPLivePhoto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LPLivePhoto.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		7C1D13942232566B009B09B2 /* Frameworks */ = {
+		7C493A1B22332ED40003D41E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -31,29 +31,29 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		7C1D138D2232566B009B09B2 = {
+		7C493A1422332ED40003D41E = {
 			isa = PBXGroup;
 			children = (
-				7C1D13992232566B009B09B2 /* LPLivePhotoGenerator */,
-				7C1D13982232566B009B09B2 /* Products */,
+				7C493A2022332ED40003D41E /* LPLivePhotoGenerator */,
+				7C493A1F22332ED40003D41E /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		7C1D13982232566B009B09B2 /* Products */ = {
+		7C493A1F22332ED40003D41E /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				7C1D13972232566B009B09B2 /* LPLivePhotoGenerator.framework */,
+				7C493A1E22332ED40003D41E /* LPLivePhotoGenerator.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		7C1D13992232566B009B09B2 /* LPLivePhotoGenerator */ = {
+		7C493A2022332ED40003D41E /* LPLivePhotoGenerator */ = {
 			isa = PBXGroup;
 			children = (
-				7C1D139A2232566B009B09B2 /* LPLivePhotoGenerator.h */,
-				7C79013F22325AC900A2DC4D /* LPLivePhoto.swift */,
-				7C79014022325AC900A2DC4D /* LPLivePhotoGenerator.swift */,
-				7C1D139B2232566B009B09B2 /* Info.plist */,
+				7C493A2122332ED40003D41E /* LPLivePhotoGenerator.h */,
+				7C493A2222332ED40003D41E /* Info.plist */,
+				7C493A2922332EFD0003D41E /* LPLivePhotoGenerator.swift */,
+				7C493A2B22332F1B0003D41E /* LPLivePhoto.swift */,
 			);
 			path = LPLivePhotoGenerator;
 			sourceTree = "<group>";
@@ -61,25 +61,25 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		7C1D13922232566B009B09B2 /* Headers */ = {
+		7C493A1922332ED40003D41E /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7C1D139C2232566B009B09B2 /* LPLivePhotoGenerator.h in Headers */,
+				7C493A2322332ED40003D41E /* LPLivePhotoGenerator.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		7C1D13962232566B009B09B2 /* LPLivePhotoGenerator */ = {
+		7C493A1D22332ED40003D41E /* LPLivePhotoGenerator */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 7C1D139F2232566B009B09B2 /* Build configuration list for PBXNativeTarget "LPLivePhotoGenerator" */;
+			buildConfigurationList = 7C493A2622332ED40003D41E /* Build configuration list for PBXNativeTarget "LPLivePhotoGenerator" */;
 			buildPhases = (
-				7C1D13922232566B009B09B2 /* Headers */,
-				7C1D13932232566B009B09B2 /* Sources */,
-				7C1D13942232566B009B09B2 /* Frameworks */,
-				7C1D13952232566B009B09B2 /* Resources */,
+				7C493A1922332ED40003D41E /* Headers */,
+				7C493A1A22332ED40003D41E /* Sources */,
+				7C493A1B22332ED40003D41E /* Frameworks */,
+				7C493A1C22332ED40003D41E /* Resources */,
 			);
 			buildRules = (
 			);
@@ -87,43 +87,43 @@
 			);
 			name = LPLivePhotoGenerator;
 			productName = LPLivePhotoGenerator;
-			productReference = 7C1D13972232566B009B09B2 /* LPLivePhotoGenerator.framework */;
+			productReference = 7C493A1E22332ED40003D41E /* LPLivePhotoGenerator.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		7C1D138E2232566B009B09B2 /* Project object */ = {
+		7C493A1522332ED40003D41E /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 1010;
 				ORGANIZATIONNAME = "Oleg Abalonski";
 				TargetAttributes = {
-					7C1D13962232566B009B09B2 = {
+					7C493A1D22332ED40003D41E = {
 						CreatedOnToolsVersion = 10.1;
 						LastSwiftMigration = 1010;
 					};
 				};
 			};
-			buildConfigurationList = 7C1D13912232566B009B09B2 /* Build configuration list for PBXProject "LPLivePhotoGenerator" */;
+			buildConfigurationList = 7C493A1822332ED40003D41E /* Build configuration list for PBXProject "LPLivePhotoGenerator" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 			);
-			mainGroup = 7C1D138D2232566B009B09B2;
-			productRefGroup = 7C1D13982232566B009B09B2 /* Products */;
+			mainGroup = 7C493A1422332ED40003D41E;
+			productRefGroup = 7C493A1F22332ED40003D41E /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				7C1D13962232566B009B09B2 /* LPLivePhotoGenerator */,
+				7C493A1D22332ED40003D41E /* LPLivePhotoGenerator */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		7C1D13952232566B009B09B2 /* Resources */ = {
+		7C493A1C22332ED40003D41E /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -133,19 +133,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		7C1D13932232566B009B09B2 /* Sources */ = {
+		7C493A1A22332ED40003D41E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7C79014222325AC900A2DC4D /* LPLivePhotoGenerator.swift in Sources */,
-				7C79014122325AC900A2DC4D /* LPLivePhoto.swift in Sources */,
+				7C493A2C22332F1B0003D41E /* LPLivePhoto.swift in Sources */,
+				7C493A2A22332EFD0003D41E /* LPLivePhotoGenerator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		7C1D139D2232566B009B09B2 /* Debug */ = {
+		7C493A2422332ED40003D41E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -209,7 +209,7 @@
 			};
 			name = Debug;
 		};
-		7C1D139E2232566B009B09B2 /* Release */ = {
+		7C493A2522332ED40003D41E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -267,7 +267,7 @@
 			};
 			name = Release;
 		};
-		7C1D13A02232566B009B09B2 /* Debug */ = {
+		7C493A2722332ED40003D41E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
@@ -285,7 +285,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.DemoApp.LPLivePhotoGenerator;
+				PRODUCT_BUNDLE_IDENTIFIER = com.LPLivePhotoGenerator.LPLivePhotoGenerator;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -294,7 +294,7 @@
 			};
 			name = Debug;
 		};
-		7C1D13A12232566B009B09B2 /* Release */ = {
+		7C493A2822332ED40003D41E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
@@ -312,7 +312,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.DemoApp.LPLivePhotoGenerator;
+				PRODUCT_BUNDLE_IDENTIFIER = com.LPLivePhotoGenerator.LPLivePhotoGenerator;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.2;
@@ -323,25 +323,25 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		7C1D13912232566B009B09B2 /* Build configuration list for PBXProject "LPLivePhotoGenerator" */ = {
+		7C493A1822332ED40003D41E /* Build configuration list for PBXProject "LPLivePhotoGenerator" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				7C1D139D2232566B009B09B2 /* Debug */,
-				7C1D139E2232566B009B09B2 /* Release */,
+				7C493A2422332ED40003D41E /* Debug */,
+				7C493A2522332ED40003D41E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		7C1D139F2232566B009B09B2 /* Build configuration list for PBXNativeTarget "LPLivePhotoGenerator" */ = {
+		7C493A2622332ED40003D41E /* Build configuration list for PBXNativeTarget "LPLivePhotoGenerator" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				7C1D13A02232566B009B09B2 /* Debug */,
-				7C1D13A12232566B009B09B2 /* Release */,
+				7C493A2722332ED40003D41E /* Debug */,
+				7C493A2822332ED40003D41E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 7C1D138E2232566B009B09B2 /* Project object */;
+	rootObject = 7C493A1522332ED40003D41E /* Project object */;
 }

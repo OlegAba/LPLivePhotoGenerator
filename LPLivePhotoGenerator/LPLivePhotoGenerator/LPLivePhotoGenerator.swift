@@ -1,16 +1,16 @@
 import Photos
 import MobileCoreServices
 
-class LPLivePhotoGenerator {
+public class LPLivePhotoGenerator {
     
-    enum LivePhotoGeneratorError: Error {
+    public enum LPError: Error {
         case imageConversionFailed(String)
         case videoConversionFailed(String)
         case livePhotoCreationFailed(String)
     }
     
     // Create and returns a LivePhoto object from the formatted image and video which include the paired image URL and paired video URL
-    static func create(inputImagePath: String, inputVideoPath: String, completion: @escaping (LPLivePhoto?, LivePhotoGeneratorError?) -> ()) {
+    public static func create(inputImagePath: String, inputVideoPath: String, completion: @escaping (LPLivePhoto?, LPError?) -> ()) {
         
         let assetID: String = UUID().uuidString
         
@@ -22,7 +22,7 @@ class LPLivePhotoGenerator {
             return
         }
         
-        convertVideoToLivePhotoFormat(inputVideoPath: inputVideoPath, outputVideoURL: outputVideoURL, assetID: assetID) { (success: Bool, error: LivePhotoGeneratorError?) in
+        convertVideoToLivePhotoFormat(inputVideoPath: inputVideoPath, outputVideoURL: outputVideoURL, assetID: assetID) { (success: Bool, error: LPError?) in
             guard success else { completion(nil, error); return }
             
             makeLivePhotoFromFormattedItems(imageURL: outputImageURL, videoURL: outputVideoURL, previewImage: UIImage(), completion: { (livePhoto: PHLivePhoto?) in
@@ -31,7 +31,7 @@ class LPLivePhotoGenerator {
                     completion(LPLivePhoto(phLivePhoto: livePhoto, imageURL: outputImageURL, videoURL: outputVideoURL, assetID: assetID), nil)
                     return
                 } else {
-                    completion(nil, LivePhotoGeneratorError.livePhotoCreationFailed("Metadata of image and/or video is invalid"))
+                    completion(nil, LPError.livePhotoCreationFailed("Metadata of image and/or video is invalid"))
                     return
                 }
             })
@@ -57,21 +57,21 @@ class LPLivePhotoGenerator {
     }
     
     // Converts the image into a Live Photo format
-    private static func convertImageToLivePhotoFormat(inputImagePath: String, outputImageURL: URL, assetID: String) -> (LivePhotoGeneratorError?) {
+    private static func convertImageToLivePhotoFormat(inputImagePath: String, outputImageURL: URL, assetID: String) -> (LPError?) {
         
-        guard let image = UIImage(contentsOfFile: inputImagePath) else { return LivePhotoGeneratorError.imageConversionFailed("Invalid image") }
-        guard let imageData = image.jpegData(compressionQuality: 1.0) else { return LivePhotoGeneratorError.imageConversionFailed("Invalid JPEG image") }
+        guard let image = UIImage(contentsOfFile: inputImagePath) else { return LPError.imageConversionFailed("Invalid image") }
+        guard let imageData = image.jpegData(compressionQuality: 1.0) else { return LPError.imageConversionFailed("Invalid JPEG image") }
         
         let destinationURL = outputImageURL as CFURL
-        guard let imageDestination = CGImageDestinationCreateWithURL(destinationURL, kUTTypeJPEG, 1, nil) else { return LivePhotoGeneratorError.imageConversionFailed("The specified directory does not exist") }
+        guard let imageDestination = CGImageDestinationCreateWithURL(destinationURL, kUTTypeJPEG, 1, nil) else { return LPError.imageConversionFailed("The specified directory does not exist") }
         
         defer { CGImageDestinationFinalize(imageDestination) }
         
-        guard let imageSource: CGImageSource = CGImageSourceCreateWithData(imageData as CFData, nil) else { return LivePhotoGeneratorError.imageConversionFailed("Image data is missing") }
+        guard let imageSource: CGImageSource = CGImageSourceCreateWithData(imageData as CFData, nil) else { return LPError.imageConversionFailed("Image data is missing") }
         
-        guard let imageSourceCopyProperties = CGImageSourceCopyPropertiesAtIndex(imageSource, 0, nil) as NSDictionary? else { return LivePhotoGeneratorError.imageConversionFailed("Metadata of image is missing") }
+        guard let imageSourceCopyProperties = CGImageSourceCopyPropertiesAtIndex(imageSource, 0, nil) as NSDictionary? else { return LPError.imageConversionFailed("Metadata of image is missing") }
         
-        guard let metadata = imageSourceCopyProperties.mutableCopy() as? NSMutableDictionary else { return LivePhotoGeneratorError.imageConversionFailed("Metadata of image could not be copied") }
+        guard let metadata = imageSourceCopyProperties.mutableCopy() as? NSMutableDictionary else { return LPError.imageConversionFailed("Metadata of image could not be copied") }
         
         let makerNote = NSMutableDictionary()
         let kFigAppleMakerNote_AssetIdentifier = "17"
@@ -84,10 +84,10 @@ class LPLivePhotoGenerator {
     }
     
     // Converts the video into a Live Photo format
-    private static func convertVideoToLivePhotoFormat(inputVideoPath: String, outputVideoURL: URL, assetID: String, completion: @escaping (Bool, LivePhotoGeneratorError?) -> ()) {
+    private static func convertVideoToLivePhotoFormat(inputVideoPath: String, outputVideoURL: URL, assetID: String, completion: @escaping (Bool, LPError?) -> ()) {
         
         // Create asset writer and set its metadata
-        guard let writer = try? AVAssetWriter(outputURL: outputVideoURL, fileType: .mov) else { completion(false, LivePhotoGeneratorError.videoConversionFailed("The specified directory does not exist")); return }
+        guard let writer = try? AVAssetWriter(outputURL: outputVideoURL, fileType: .mov) else { completion(false, LPError.videoConversionFailed("The specified directory does not exist")); return }
         let item = AVMutableMetadataItem()
         item.key = "com.apple.quicktime.content.identifier" as (NSCopying & NSObjectProtocol)?
         item.keySpace = AVMetadataKeySpace.quickTimeMetadata
@@ -97,10 +97,10 @@ class LPLivePhotoGenerator {
         
         // Reader for source video
         let asset = AVURLAsset(url: URL(fileURLWithPath: inputVideoPath))
-        guard let videoTrack = asset.tracks(withMediaType: .video).first else { completion(false, LivePhotoGeneratorError.videoConversionFailed("Video track is in unavailable format")); return }
+        guard let videoTrack = asset.tracks(withMediaType: .video).first else { completion(false, LPError.videoConversionFailed("Video track is in unavailable format")); return }
         
         let output = AVAssetReaderTrackOutput(track: videoTrack, outputSettings: [kCVPixelBufferPixelFormatTypeKey as String: NSNumber(value: kCVPixelFormatType_32BGRA as UInt32)])
-        guard let videoReader = try? AVAssetReader(asset: asset) else { completion(false, LivePhotoGeneratorError.videoConversionFailed("Video data is in an unsupported format")); return }
+        guard let videoReader = try? AVAssetReader(asset: asset) else { completion(false, LPError.videoConversionFailed("Video data is in an unsupported format")); return }
         videoReader.add(output)
         
         // Input from video file
@@ -128,20 +128,20 @@ class LPLivePhotoGenerator {
         
         let adapter = AVAssetWriterInputMetadataAdaptor(assetWriterInput: assetWriterInput)
         writer.add(adapter.assetWriterInput)
-
-
+        
+        
         // Create audio reader and writer
         var audioReader: AVAssetReader?
         var audioReaderOutput: AVAssetReaderOutput?
         var audioWriterInput: AVAssetWriterInput?
-
+        
         if let audioTrack = asset.tracks(withMediaType: .audio).first {
-            guard let audioReaderTemp = try? AVAssetReader(asset: asset) else {completion(false, LivePhotoGeneratorError.videoConversionFailed("Audio data is in an unsupported format")); return}
+            guard let audioReaderTemp = try? AVAssetReader(asset: asset) else {completion(false, LPError.videoConversionFailed("Audio data is in an unsupported format")); return}
             let audioOutputTemp = AVAssetReaderTrackOutput(track: audioTrack, outputSettings: nil)
             audioReaderTemp.add(audioOutputTemp)
             audioReader = audioReaderTemp
             audioReaderOutput = audioOutputTemp
-
+            
             let audioInputTemp = AVAssetWriterInput(mediaType: .audio, outputSettings: nil)
             audioInputTemp.expectsMediaDataInRealTime = false
             writer.add(audioInputTemp)
@@ -170,21 +170,21 @@ class LPLivePhotoGenerator {
                     if let buffer = output.copyNextSampleBuffer() {
                         if !videoWriterInput.append(buffer) {
                             videoReader.cancelReading()
-                            completion(false, LivePhotoGeneratorError.videoConversionFailed("cannot write: \((describing: writer.error?.localizedDescription))"))
+                            completion(false, LPError.videoConversionFailed("cannot write: \((describing: writer.error?.localizedDescription))"))
                         }
                     }
                 } else {
                     videoWriterInput.markAsFinished()
                     writer.finishWriting() {
                         if let e = writer.error {
-                            completion(false, LivePhotoGeneratorError.videoConversionFailed(e.localizedDescription))
+                            completion(false, LPError.videoConversionFailed(e.localizedDescription))
                             return
                         }
                     }
                 }
             }
         })
-
+        
         
         // Write audio track
         if audioReader?.startReading() ?? false {
@@ -199,14 +199,14 @@ class LPLivePhotoGenerator {
                 }
             }
         }
-
+        
         
         
         // Wait until writer finishes writing
         while writer.status == .writing {
             RunLoop.current.run(until: Date(timeIntervalSinceNow: 0.5))
         }
-
+        
         completion(true, nil)
     }
     
