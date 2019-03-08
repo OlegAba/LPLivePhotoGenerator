@@ -1,4 +1,4 @@
-# LivePhotoGenerator
+# Live Photo Generator
 A Swift library for creating and saving Live Photos
 
 ## Usage
@@ -6,7 +6,7 @@ A Swift library for creating and saving Live Photos
 #### Creating and Saving a Live Photo:
 ```swift
 // Create a LivePhoto object with a image path and video path
-LivePhotoGenerator.create(inputImagePath: imagePath, inputVideoPath: videoPath) { (livePhoto: LivePhoto?, error: Error?) in
+LPLivePhotoGenerator.create(inputImagePath: imagePath, inputVideoPath: videoPath) { (livePhoto: LPLivePhoto?, error: Error?) in
 
     // Unwrap object
     if let livePhoto = livePhoto {
@@ -16,7 +16,7 @@ LivePhotoGenerator.create(inputImagePath: imagePath, inputVideoPath: videoPath) 
         livePhotoView.livePhoto = livePhoto
 
         // Save Live Photo to Photo Library
-        livePhoto.writeToPhotoLibrary(completion: { (livePhoto: LivePhoto, error: Error?) in
+        livePhoto.writeToPhotoLibrary(completion: { (livePhoto: LPLivePhoto, error: Error?) in
 
           if error == nil {
             ...
@@ -26,7 +26,7 @@ LivePhotoGenerator.create(inputImagePath: imagePath, inputVideoPath: videoPath) 
 }
 ```
 
-#### Extra Tool (LivePhoto Method):
+#### Extra Tool (LPLivePhoto Method):
 ```swift
 // Move paired image and video to new path
 livePhoto.movePairedImageAndVideoTo(path: path, completion: { (success: Bool, error: Error?) in
