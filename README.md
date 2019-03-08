@@ -34,3 +34,13 @@ livePhoto.movePairedFilesTo(path: path, completion: { (success: Bool, error: Err
     }
 })
 ```
+
+## Live Photo Generator Demo
+The "Demo" is a basic reference application created to show how to develop applications using the Live Photo Generator library.
+
+### Installation
+To access the project, run the following:
+```
+git clone --recursive https://github.com/OlegAba/LivePhotoGenerator.git
+```
+Open ```Demo.xcodeproj``` in the Demo folder
