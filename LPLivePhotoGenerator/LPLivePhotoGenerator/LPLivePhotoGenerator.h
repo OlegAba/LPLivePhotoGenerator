@@ -1,11 +1,3 @@
-//
-//  LPLivePhotoGenerator.h
-//  LPLivePhotoGenerator
-//
-//  Created by Oleg Abalonski on 3/8/19.
-//  Copyright © 2019 Oleg Abalonski. All rights reserved.
-//
-
 #import <UIKit/UIKit.h>
 
 //! Project version number for LPLivePhotoGenerator.
