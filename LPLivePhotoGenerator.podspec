@@ -12,6 +12,6 @@ Pod::Spec.new do |s|
   s.social_media_url   = "https://github.com/OlegAba"
   s.platform     = :ios, "11.0"
   s.source       = { :git => "https://github.com/OlegAba/LPLivePhotoGenerator.git", :tag => "0.1.0" }
-  s.source_files  = "LPLivePhotoGenerator/*swift"
+  s.source_files  = "LPLivePhotoGenerator/**/*swift"
 
 end
