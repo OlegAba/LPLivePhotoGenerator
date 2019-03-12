@@ -1,4 +1,9 @@
 # LPLivePhotoGenerator
+
+[![GitHub release](https://img.shields.io/github/release/OlegAba/LPLivePhotoGenerator.svg)](https://github.com/OlegAba/LPLivePhotoGenerator/releases)
+[![GitHub license](https://img.shields.io/github/license/OlegAba/LPLivePhotoGenerator.svg)](https://github.com/OlegAba/LPLivePhotoGenerator/blob/master/LICENSE.txt)
+[![CocoaPods](https://img.shields.io/cocoapods/v/LPLivePhotoGenerator.svg)](https://cocoapods.org/pods/LPLivePhotoGenerator)
+
 A Swift library for creating and saving Live Photos
 
 ## Installation
