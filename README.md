@@ -12,6 +12,10 @@ pod 'LPLivePhotoGenerator'
 ```
 pod install
 ```
+Import the library, where you want to use it:
+```swift
+import LPLivePhotoGenerator
+```
 
 ## Usage
 
