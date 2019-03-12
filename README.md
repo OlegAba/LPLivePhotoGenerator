@@ -8,15 +8,20 @@ A Swift library for creating and saving Live Photos
 
 ## Installation
 
-#### As a [CocoaPods](https://cocoapods.org) Dependency
+#### As a [CocoaPods](https://cocoapods.org) Dependency:
 Add the following to your Podfile:
 ```
 pod 'LPLivePhotoGenerator'
 ```
-```cd``` into the directory where your Podfile is present and install
+`cd` into the directory where your Podfile is present and install
 ```
 pod install
 ```
+
+#### Manual Installation (Framework):
+1. Drag the `LPLivePhotoGenerator.xcodeproj` file into your Xcode project.
+2. Add `LPLivePhotoGenerator.framework` to "Embedded Binaries" in the "General" tab of your target.
+
 Import the library, where you want to use it:
 ```swift
 import LPLivePhotoGenerator
