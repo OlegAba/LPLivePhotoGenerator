@@ -22,7 +22,7 @@ pod install
 1. Drag the `LPLivePhotoGenerator.xcodeproj` file into your Xcode project.
 2. Add `LPLivePhotoGenerator.framework` to "Embedded Binaries" in the "General" tab of your target.
 
-Import the library, where you want to use it:
+#### Import the library, where you want to use it:
 ```swift
 import LPLivePhotoGenerator
 ```
