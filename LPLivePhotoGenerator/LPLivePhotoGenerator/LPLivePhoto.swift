@@ -15,7 +15,7 @@ public class LPLivePhoto {
         case videoRemoveFailed(String)
     }
     
-    init(phLivePhoto: PHLivePhoto, imageURL: URL, videoURL: URL, assetID: String) {
+    public init(phLivePhoto: PHLivePhoto, imageURL: URL, videoURL: URL, assetID: String) {
         self.phLivePhoto = phLivePhoto
         self.imageURL = imageURL
         self.videoURL = videoURL
