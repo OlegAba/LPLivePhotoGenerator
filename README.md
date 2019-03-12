@@ -3,7 +3,7 @@ A Swift library for creating and saving Live Photos
 
 ## Installation
 
-#### As a CocoaPods Dependency
+#### As a [CocoaPods](https://cocoapods.org) Dependency
 Add the following to your Podfile:
 ```
 pod 'LPLivePhotoGenerator'
