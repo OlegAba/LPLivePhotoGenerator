@@ -62,7 +62,7 @@ pod install
 open Demo.xcworkspace
 ```
 
-_You can also check out [SuperSnapcode](https://github.com/OlegAba/SuperSnapcode) - an open-source iOS application that is built with this library_
+_You can also check out [SuperSnapcode](https://github.com/OlegAba/SuperSnapcode) - an open-source iOS application that is built using this library_
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](https://github.com/OlegAba/LivePhotoGenerator/blob/master/LICENSE) file for details
