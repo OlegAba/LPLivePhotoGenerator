@@ -1,5 +1,6 @@
 import UIKit
 import PhotosUI
+import LPLivePhotoGenerator
 
 class LivePhotoViewController: UIViewController, PHLivePhotoViewDelegate {
     
