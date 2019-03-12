@@ -2,10 +2,10 @@ import Photos
 
 public class LPLivePhoto {
     
-    let phLivePhoto: PHLivePhoto
-    let imageURL: URL
-    let videoURL: URL
-    let assetID: String
+    public let phLivePhoto: PHLivePhoto
+    public let imageURL: URL
+    public let videoURL: URL
+    public let assetID: String
     
     public enum LPError: Error {
         case writeToPhotoLibraryFailed(String)
