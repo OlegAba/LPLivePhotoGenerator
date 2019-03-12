@@ -1,5 +1,17 @@
-# Live Photo Generator
+# LPLivePhotoGenerator
 A Swift library for creating and saving Live Photos
+
+## Installation
+
+#### As a CocoaPods Dependency
+Add the following to your Podfile:
+```
+pod 'LPLivePhotoGenerator'
+```
+```cd``` into the directory where your Podfile is present and install
+```
+pod install
+```
 
 ## Usage
 
@@ -38,14 +50,17 @@ livePhoto.movePairedImageAndVideoTo(path: path, completion: { (success: Bool, er
 ```
 
 ## Demo Application
-The "Demo" is a basic reference application created to show how to develop applications using the Live Photo Generator library.
+The "Demo" is a basic reference application created to show how to install LPLivePhotoGenerator using CocoaPods and develop applications using this library.
 
 ### Installation
+[CocoaPods](https://cocoapods.org) should be installed before continuing.
 To access the project, run the following:
 ```
-git clone --recursive https://github.com/OlegAba/LivePhotoGenerator.git
+git clone --recursive https://github.com/OlegAba/LPLivePhotoGenerator.git
+cd LPLivePhotoGenerator/Demo/
+pod install
+open Demo.xcworkspace
 ```
-Open ```Demo.xcodeproj``` in the Demo folder
 
 _You can also check out [SuperSnapcode](https://github.com/OlegAba/SuperSnapcode) - an open-source iOS application that is built with this library_
 
