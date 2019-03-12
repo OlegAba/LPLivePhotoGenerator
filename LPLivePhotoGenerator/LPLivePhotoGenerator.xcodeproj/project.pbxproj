@@ -34,7 +34,6 @@
 		7C493A1422332ED40003D41E = {
 			isa = PBXGroup;
 			children = (
-				7CD79C3D2235024400A387ED /* Resources */,
 				7C493A2022332ED40003D41E /* LPLivePhotoGenerator */,
 				7C493A1F22332ED40003D41E /* Products */,
 			);
@@ -54,16 +53,9 @@
 				7C493A2122332ED40003D41E /* LPLivePhotoGenerator.h */,
 				7C493A2922332EFD0003D41E /* LPLivePhotoGenerator.swift */,
 				7C493A2B22332F1B0003D41E /* LPLivePhoto.swift */,
-			);
-			path = LPLivePhotoGenerator;
-			sourceTree = "<group>";
-		};
-		7CD79C3D2235024400A387ED /* Resources */ = {
-			isa = PBXGroup;
-			children = (
 				7CD79C42223504E500A387ED /* Info.plist */,
 			);
-			path = Resources;
+			path = LPLivePhotoGenerator;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
