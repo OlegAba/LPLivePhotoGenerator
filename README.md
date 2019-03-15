@@ -22,14 +22,15 @@ pod install
 1. Drag the `LPLivePhotoGenerator.xcodeproj` file into your Xcode project.
 2. Add `LPLivePhotoGenerator.framework` to "Embedded Binaries" in the "General" tab of your target.
 
-#### Import the library, wherever you want to use it:
+## Usage
+
+#### 1. Import LPLivePhotoGenerator
+Import LPLivePhotoGenerator module wherever you want to use it:
 ```swift
 import LPLivePhotoGenerator
 ```
 
-## Usage
-
-#### Creating and Saving a Live Photo:
+#### 2. Creating and Saving a Live Photo:
 ```swift
 // Create a LivePhoto object with a image path and video path
 LPLivePhotoGenerator.create(inputImagePath: imagePath, inputVideoPath: videoPath) { (livePhoto: LPLivePhoto?, error: Error?) in
@@ -52,7 +53,7 @@ LPLivePhotoGenerator.create(inputImagePath: imagePath, inputVideoPath: videoPath
 }
 ```
 
-#### Extra Tool (LPLivePhoto Method):
+#### 3. Extra Tool (LPLivePhoto Method):
 ```swift
 // Move paired image and video to new path
 livePhoto.movePairedImageAndVideoTo(path: path, completion: { (success: Bool, error: Error?) in
