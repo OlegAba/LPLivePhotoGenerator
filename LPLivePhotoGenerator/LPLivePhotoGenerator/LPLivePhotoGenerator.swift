@@ -170,7 +170,8 @@ public class LPLivePhotoGenerator {
                     if let buffer = output.copyNextSampleBuffer() {
                         if !videoWriterInput.append(buffer) {
                             videoReader.cancelReading()
-                            completion(false, LPError.videoConversionFailed("cannot write: \((describing: writer.error?.localizedDescription))"))
+                            let localizedDescription = writer.error?.localizedDescription ?? ""
+                            completion(false, LPError.videoConversionFailed("Cannot write: \(localizedDescription)"))
                         }
                     }
                 } else {
