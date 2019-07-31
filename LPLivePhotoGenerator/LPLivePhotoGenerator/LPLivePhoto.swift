@@ -40,7 +40,7 @@ public class LPLivePhoto {
     }
     
     // Move paired image and video to new path
-    func movePairedImageAndVideoTo(path: String, completion: @escaping (Bool, LPError?) -> ()) {
+    public func movePairedImageAndVideoTo(path: String, completion: @escaping (Bool, LPError?) -> ()) {
         let newImageURL = URL(fileURLWithPath: path + "/\(self.assetID).jpeg")
         let newVideoURL = URL(fileURLWithPath: path + "/\(self.assetID).mov")
         
@@ -62,7 +62,7 @@ public class LPLivePhoto {
     }
     
     // Removes paired image and video in temporary directory
-    private func removeFilesFromTempDirectory(completion: @escaping (Bool, LPError?) -> ()) {
+    public func removeFilesFromTempDirectory(completion: @escaping (Bool, LPError?) -> ()) {
         if (try? FileManager.default.removeItem(at: imageURL)) != nil {
             print("Image file removed at path \(imageURL.path)")
         } else {
@@ -78,16 +78,6 @@ public class LPLivePhoto {
         }
         
         completion(true, nil)
-    }
-    
-    deinit {
-        print("deinit called on LivePhoto object id: \(self.assetID)")
-        
-        removeFilesFromTempDirectory { (success: Bool, error: LPError?) in
-            if let error = error {
-                print(error.localizedDescription)
-            }
-        }
     }
     
 }

@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "LPLivePhotoGenerator"
-  s.version      = "0.6.0"
+  s.version      = "0.7.0"
   s.summary      = "A swift library for creating and saving Live Photos."
   s.description  = "Convert an image and video into a Live Photo and save it.
   The option to move the paired files with the necessary metadata to another

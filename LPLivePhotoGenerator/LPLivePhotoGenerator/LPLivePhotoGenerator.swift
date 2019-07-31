@@ -39,21 +39,21 @@ public class LPLivePhotoGenerator {
         }
     }
     
-    // Creates temporary directory URL with an appending file name
-    private static func createTempDirectoryPathWith(fileName: String) -> URL {
-        
-        let tempDirectoryURL = NSURL.fileURL(withPath: NSTemporaryDirectory(), isDirectory: true).appendingPathComponent(fileName)
-        return tempDirectoryURL
-    }
-    
     // Links the formatted image and video
-    private static func makeLivePhotoFromFormattedItems(imageURL: URL, videoURL: URL, previewImage: UIImage, completion: @escaping (PHLivePhoto?) -> ()) {
+    public static func makeLivePhotoFromFormattedItems(imageURL: URL, videoURL: URL, previewImage: UIImage, completion: @escaping (PHLivePhoto?) -> ()) {
         
         PHLivePhoto.request(withResourceFileURLs: [imageURL, videoURL], placeholderImage: previewImage, targetSize: CGSize.zero, contentMode: .aspectFit) { (livePhoto: PHLivePhoto?, infoDict: [AnyHashable : Any]) in
             
             // Wait until all live photo data is loaded
             guard let _ = infoDict[PHLivePhotoInfoIsDegradedKey] as? Bool else { completion (livePhoto); return }
         }
+    }
+    
+    // Creates temporary directory URL with an appending file name
+    private static func createTempDirectoryPathWith(fileName: String) -> URL {
+        
+        let tempDirectoryURL = NSURL.fileURL(withPath: NSTemporaryDirectory(), isDirectory: true).appendingPathComponent(fileName)
+        return tempDirectoryURL
     }
     
     // Converts the image into a Live Photo format
