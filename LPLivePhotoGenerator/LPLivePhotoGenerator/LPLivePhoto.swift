@@ -34,6 +34,7 @@ public class LPLivePhoto {
         }) { (success: Bool, error: Error?) in
             if let error = error {
                 completion(self, LPError.writeToPhotoLibraryFailed(error.localizedDescription))
+                return
             }
             completion(self, nil)
         }
