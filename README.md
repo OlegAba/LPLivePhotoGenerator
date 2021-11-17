@@ -1,4 +1,8 @@
-# LPLivePhotoGenerator
+# DEPRECATED
+
+This project is deprecated and will no longer be supported. I recommend using [LimitPoint/LivePhoto](https://github.com/LimitPoint/LivePhoto) instead.
+
+## LPLivePhotoGenerator
 
 [![GitHub release](https://img.shields.io/github/release/OlegAba/LPLivePhotoGenerator.svg)](https://github.com/OlegAba/LPLivePhotoGenerator/releases)
 [![GitHub license](https://img.shields.io/github/license/OlegAba/LPLivePhotoGenerator.svg)](https://github.com/OlegAba/LPLivePhotoGenerator/blob/master/LICENSE)
